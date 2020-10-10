@@ -1,0 +1,9 @@
+main_homepage:
+    path:     /
+    defaults: { _controller: MainBundle:Default:index }
+################# ROUTING DE Sl-Wassim PLEASE DON'T TOUCH #####################
+main_notification:
+    path:     /notification
+    defaults: { _controller: MainBundle:Notification:list }
+    methods: [post]
+############################ END ROUNTING DE Sl-Wassim ##########################

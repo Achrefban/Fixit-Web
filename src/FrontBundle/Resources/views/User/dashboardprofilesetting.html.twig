@@ -1,0 +1,351 @@
+ {% extends "dashboard_front.html.twig" %}{% set menu_selected='profile_setting' %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block title %}Profil{% endblock %}
+{% block content %}
+    <script>
+        $(document).ready(function () {
+            ajaxCall();
+            var $scoin=$('#scoin');
+            var $bouton=$('#customButton');
+            var verif=0;
+            function readURL(input) {
+                console.log("aaaaa");
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('#file').html("");
+                        var img=document.createElement('img');
+                        var input=document.createElement('input');
+                        input.setAttribute('type','file');
+                        input.setAttribute('name','image');
+                        input.setAttribute('id','tg-photoandlogo');
+                        input.setAttribute('class','tg-fileinput');
+                        input.onchange=function () {
+                            readURL(input);
+                        };
+                        img.setAttribute('src', e.target.result);
+                        img.style.cssText='max-width:400px;max-height:200px';
+                        $("#file").append(img);
+                        $("#file").append(input);
+                        //$("#file").css({'width' : '190px' , 'height' : '190px' , 'text-align':'center'});
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                    $("#imageUploadForm").submit();
+                }
+            }
+            $('#imageUploadForm').on('submit',(function(e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+
+                $.ajax({
+                    type:'POST',
+                    url: "{{ path('ajouterPhoto') }}",
+                    data:formData,
+                    cache:false,
+                    contentType: false,
+                    processData: false,
+                    success:function(data){
+                        console.log("success");
+                        console.log(data);
+                    },
+                    error: function(data){
+                        console.log("error");
+                        console.log(data);
+                    }
+                });
+            }));
+            $("#tg-photoandlogo").change(function () {
+                readURL(this);
+            });
+            $("#langue").click(
+                function () {
+                    ajaxAdd();
+                }
+            );
+            function ajaxAdd(){
+                $.ajax({
+                    url: "{{ path('ajouterLangue') }}",
+                    method: "post",
+                    data: {idUser: "{{ app.user.id }}",idLangue:$('#langues1 option:selected').val()}
+                }).success(function(msg) {
+                    ajaxCall();
+                });
+            }
+            function ajaxRemove(){
+                $.ajax({
+                    url: "{{ path('supprimerLangue') }}",
+                    method: "post",
+                    data: {idUser: "{{ app.user.id }}",idLangue:this.id}
+                }).success(function(msg) {
+                    ajaxCall();
+                });
+            }
+            function ajaxCall(){
+                $.ajax({
+                    url: "{{ path('languesUser') }}",
+                    method: "post",
+                    data: {id: "{{ app.user.id }}"}
+                }).success(function(msg) {
+                    refreshList(msg);
+                });
+
+            }
+            function refreshList(msg) {
+                $('#langues').text("");
+                $.each(msg.langues, function (i,item) {
+                    console.log(item);
+                    var li = document.createElement('li');
+                    var span = document.createElement('span');
+                    span.className='tg-tagdashboard';
+                    var i = document.createElement('i');
+                    i.className='fa fa-close';
+                    i.setAttribute("id",item.id);
+                    i.onclick=ajaxRemove;
+                    var em = document.createElement('em');
+                    var text = document.createTextNode(item.libelle);
+                    em.appendChild(text);
+                    span.appendChild(i);
+                    span.appendChild(em);
+                    li.appendChild(span);
+                    $('#langues').append(li);
+                });
+            }
+            $scoin.keyup(function () {
+                if ( parseInt($(this).val())<1 || parseInt($(this).val())!=$(this).val())
+                {
+                    verif=0;
+                    $(this).css({
+                        borderColor: 'red',
+                        color: 'red'
+                    });
+                }
+                else
+                {
+                    verif=1
+                    $(this).css({
+                        borderColor: 'green',
+                        color: 'green'
+                    });
+                }
+            })
+            $bouton.click(function (e) {
+                if (verif==0)
+                {
+                    e.preventDefault();
+                }
+            })
+        });
+    </script>
+    <!--************************************
+				Inner Page Banner Start
+		*************************************-->
+    <div class="tg-innerpagebanner">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="tg-pagetitle">
+                        <h1>Profil</h1>
+                    </div>
+                    <ol class="tg-breadcrumb">
+                        <li><a href="{{ path('front_homepage') }}">Accueil</a></li>
+                        <li class="tg-active">Profil</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block sidebar %}
+ {{ parent() }}
+{% endblock %}
+    {% block content_dashboard %}
+        <script type="text/javascript">
+            function amount() {
+                document.getElementById("montantscoin").value=(document.getElementById("scoin").value/2).toString().concat(" DT");
+            }
+        </script>
+                    <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9">
+                        <div id="tg-content" class="tg-content">
+                            <div class="tg-dashboard tg-dashboardprofilesetting">
+                                <div class="tg-themeform">
+                                    <fieldset>
+                                        <div class="tg-dashboardbox tg-uploadphotos">
+                                            <div class="tg-dashboardtitle">
+                                                <h2>Photo de profil</h2>
+                                            </div>
+                                            <div class="tg-brochureuploadbox">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                        <div class="tg-upload">
+                                                            <form method="post" enctype="multipart/form-data" id="imageUploadForm">
+                                                                <div class="tg-uploadhead">
+																	<span>
+																		<h3>Cliquez sur la photo pour la changer</h3>
+																		<i class="fa fa-exclamation-circle"></i>
+																	</span>
+
+                                                                    <i class="lnr lnr-upload"><button type="submit"></button></i>
+
+                                                            </div>
+                                                                <div class="tg-box">
+                                                                <label class="tg-fileuploadlabel" for="tg-photoandlogo" id="file">
+                                                                    {% if app.user.image != null %}
+                                                                    <img
+                                                                            src="{{ asset('uploads/images/user/' ~ app.user.image ) }}"
+                                                                            style="max-width: 400px;max-height: 200px">
+                                                                    {% else %}
+                                                                    <i class="lnr lnr-cloud-upload"></i>
+                                                                    <span>Cliquez ici pour ajouter une photo</span>
+                                                                    {% endif %}
+                                                                    <input id="tg-photoandlogo" class="tg-fileinput" type="file" name="image">
+                                                                </label>
+                                                            </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tg-dashboardbox tg-basicinformation">
+                                            <div class="tg-dashboardtitle">
+                                                <h2>Votre solde</h2>
+                                            </div>
+                                            <div class="tg-basicinformationbox">
+                                                <div style="font-size: 30px; text-align: center;">
+                                                    {{ app.user.solde }}
+                                                    <img src="{{ asset("service/images/icons/scoin.png") }}">
+                                                </div>
+                                                <form method="post" action="{{ path('paiement') }}" onkeyup="amount()">
+                                                    <div style="padding-top: 10px">
+                                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                                                            <div class="form-group">
+                                                                <input type="text" id="scoin" class="form-control" name="scoin" placeholder="SCoin">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                                                            <div class="form-group">
+                                                                <input type="text" id="montantscoin" class="form-control" name="montantscoin" placeholder="Montant" disabled="disabled">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                                                            <div class="form-group">
+                                                                <button class="tg-btn" type="submit" id="customButton">Acheter</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <p>0,5 DT/SCoin</p>
+                                                <span><a href="{{ path('liste_paiement') }}">Mon historique de paiements</a>
+                                                </span>
+                                                <div id="tg-accordion" class="tg-accordion">
+                                                    <div class="tg-service tg-panel tg-active" style="display: none">
+                                                        <div class="tg-accordionheading">
+                                                            <h4><span></span>Ce que vous pouvez acheter avec votre solde</h4>
+                                                        </div>
+                                                        <div class="tg-panelcontent">
+                                                            <div class="tg-description">
+                                                                <p>aaaaaa</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tg-service tg-panel tg-active" style="display: none">
+                                                        <div class="tg-accordionheading">
+                                                            <h4><span></span>Ce que vous pouvez acheter avec votre solde</h4>
+                                                        </div>
+                                                        <div class="tg-panelcontent">
+                                                            <div class="tg-description">
+                                                                <p>aaaaaa</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tg-service tg-panel">
+                                                        <div class="tg-accordionheading">
+                                                            <h4><span></span>Ce que vous pourriez acheter avec votre solde</h4>
+                                                        </div>
+                                                        <div class="tg-panelcontent">
+                                                            <div class="tg-description">
+                                                                {% for produit in produits %}
+                                                                <div class="tg-feedback" style="display: block;">
+                                                                    <figure><a href="{{ path('main_Detaille_produit',{"prod":produit.id}) }}"><img src="{{ asset('uploads/images/produit/' ~ produit.image ) }}" alt="image description"></a></figure>
+                                                                    <div class="tg-feedbackcontent">
+                                                                        <div class="tg-feedbackbox">
+                                                                            <div class="tg-contenthead">
+                                                                                <div class="tg-leftbox">
+                                                                                    <div class="tg-name">
+                                                                                        <h4><a href="{{ path('main_Detaille_produit',{"prod":produit.id}) }}">{{ produit.nom }}</a></h4>
+                                                                                    </div>
+                                                                                    <ul class="tg-matadata">
+                                                                                        <li>{{ produit.CategorieProduit.nom }}</li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                                <div class="tg-overallratingbox">
+                                                                                    <span>{{ produit.prix }} SCoins</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tg-dashboardbox tg-basicinformation">
+                                            <div class="tg-dashboardtitle">
+                                                <h2>Informations générales</h2>
+                                            </div>
+                                            <div class="tg-basicinformationbox">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" name="firstname" placeholder="Your Name" value="{{  app.user.firstname }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" name="Lastname" placeholder="Company Title" value="{{  app.user.lastname }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" name="email" placeholder="Email" value="{{  app.user.email }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" name="username" placeholder="Mobile" value="{{  app.user.username }}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tg-dashboardbox tg-languages">
+                                            <div class="tg-dashboardtitle">
+                                                <h2>Langues parlées</h2>
+                                            </div>
+                                            <div class="tg-languagesbox">
+                                                <div class="form-group">
+														<span class="tg-select">
+															<select id="langues1">
+                                                                {% for langue in langues %}
+                                                                    <option value="{{ langue.id }}">{{ langue.libelle }}</option>
+                                                                {% endfor %}
+															</select>
+														</span>
+                                                    <button class="tg-btn" id="langue" type="button">Ajouter</button>
+                                                </div>
+                                                <ul class="tg-tagdashboardlist" id="langues">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        {% endblock %}

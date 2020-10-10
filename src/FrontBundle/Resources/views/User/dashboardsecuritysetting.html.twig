@@ -1,0 +1,58 @@
+{% extends "dashboard_front.html.twig" %}{% set menu_selected='account_setting' %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block title %}Paramètres du compte{% endblock %}
+{% block content %}
+    <!--************************************
+				Inner Page Banner Start
+		*************************************-->
+    <div class="tg-innerpagebanner">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="tg-pagetitle">
+                        <h1>Paramètres du compte</h1>
+                    </div>
+                    <ol class="tg-breadcrumb">
+                        <li><a href="{{ path("front_homepage") }}">Accueil</a></li>
+                        <li class="tg-active">Paramètres du compte</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block sidebar %}
+ {{ parent() }}
+{% endblock %}
+    {% block content_dashboard %}
+        <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9">
+            <div id="tg-content" class="tg-content">
+                <div class="tg-dashboardsecuritysetting">
+                            <h2>Changez votre mot de passe</h2>
+                            <div class="row">
+                                {{ form_start(form, {'method': 'post', 'action': path('fos_user_change_password'), 'attr': {'class': 'fos_user_change_password'}}) }}
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        {{ form_widget(form.current_password, {'attr': {'class': 'form-control','placeholder':'Votre mot de passe actuel'}}) }}
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control','placeholder':'Votre nouveau mot de passe'}}) }}
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control','placeholder':'Confirmez le mot de passe'}}) }}
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <button class="tg-btn" type="submit">Enregistrer</button>
+                                </div>
+                            </div>
+                            {{ form_end(form) }}
+
+                </div>
+            </div>
+        </div>
+        {% endblock %}

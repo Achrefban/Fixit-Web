@@ -1,0 +1,265 @@
+{% extends "front.html.twig" %}
+{% block content %}
+
+    <!--************************************
+            Main Start
+    *************************************-->
+    <main id="tg-main" class="tg-main tg-haslayout">
+        <div class="container">
+            <div class="row">
+                <div id="tg-twocolumns" class="tg-twocolumns">
+                    <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9 pull-right">
+                        <div class="row">
+                            <div id="tg-content" class="tg-content">
+                                <div class="tg-listing tg-listview">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        {% set nbrr=0 %}
+                                        {% for cc in outil %}
+                                            {% set nbrr=(nbrr+1) %}
+                                        {% endfor %}
+                                        <span class="tg-totallistingfound">{{ nbrr }} Resultas trouvés</span>
+                                        <form method="Post">
+                                        <div class="tg-sortfilters">
+                                            <div class="tg-sortfilter tg-sortby">
+                                                <span>Trier par:</span>
+                                                <div class="tg-select">
+                                                    <select id="tri">
+                                                         <option value="nom" {% if tri=="nom" %}selected{% endif %}>Nom </option>
+                                                        <option value="prix" {% if tri=="prix" %}selected{% endif %}>Prix</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="tg-sortfilter tg-arrange">
+                                                <span>Arrange:</span>
+                                                <div class="tg-select">
+                                                    <select id="triDSC">
+                                                        <option value="asc" {% if triDSC=="asc" %}selected{% endif %}>Asc</option>
+                                                        <option value="dsc" {% if triDSC=="dsc" %}selected{% endif %}>DES</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="tg-sortfilter tg-show">
+                                                <span>Show:</span>
+                                                <div class="tg-select">
+                                                    <select>
+                                                        <option>12</option>
+                                                        <option>24</option>
+                                                        <option>all</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </form>
+                                    </div>
+                                    {% for o in outil %}
+                                    <div class="tg-serviceproviders">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div class="tg-serviceprovider tg-automotive">
+                                                <figure class="tg-featuredimg">
+                                                    <img src="{{ asset('uploads/images/outil/' ~ o.image ) }}" width="150" alt="image description">
+
+                                                </figure>
+                                                <div class="tg-companycontent">
+
+                                                    <div class="tg-title">
+                                                        <h2><a href="#">{{ o.nom }}</a></h2>
+                                                    </div>
+
+                                                    <ul class="tg-companycontactinfo">
+                                                        {% if o.quantite>0 %}
+                                                        <li><a class="tg-tag tg-featuredtag" href="#" style="background: #00a243 ; color: white" >Disponible</a></li>
+                                                        {% else %}
+                                                            <li><a class="tg-tag tg-featuredtag" href="#" style="background: #bf0000 ; color: white" >Indisponible</a></li>
+                                                         {% endif %}
+                                                        <li>
+                                                            <img src="{{ asset('uploads/images/categorieOutil/' ~ o.CategorieOutils.logo ) }}" width="30">
+                                                            <span data-toggle="tooltip" data-placement="top" title="Click to view Number" data-last="34 - 562 - 6">{{ o.CategorieOutils.nom }}</em></span>
+                                                        </li>
+                                                        <li>
+                                                            <img src="{{ asset("service/images/icons/adresse.png") }}" width="30">
+                                                            <span data-toggle="tooltip" data-placement="top" title="Click to view Number" data-last="34 - 562 - 6">{{ o.adresse }} ,{{ o.ville }}</em></span>
+                                                        </li>
+
+                                                        <li>
+                                                            <img src="{{ asset("service/images/icons/scoin.png") }}" width="30">
+                                                            <span data-toggle="tooltip" data-placement="top" title="Click to view Number" data-last="34 - 562 - 6">{{ o.prix }}</em></span>
+                                                        </li>
+                                                    </ul>
+                                                    <a class="tg-btn"  href="{{ path('front_detailOutil',{'id': o.id}) }}">Détails</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    {% endfor %}
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <nav class="tg-pagination">
+                                            <ul>
+                                                <li class="tg-prevpage"><a href="#"><i class="fa fa-angle-left"></i></a></li>
+                                                <li><a href="#">1</a></li>
+                                                <li><a href="#">2</a></li>
+                                                <li><a href="#">3</a></li>
+                                                <li><a href="#">4</a></li>
+                                                <li class="tg-active"><a href="#">5</a></li>
+                                                <li>...</li>
+                                                <li><a href="#">10</a></li>
+                                                <li class="tg-nextpage"><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 pull-left">
+                        <aside id="tg-sidebar" class="tg-sidebar">
+                            <form class="tg-themeform tg-formrefinesearch">
+                                <fieldset>
+                                    <h4>Filtrer par catégorie</h4>
+                                    <div class="tg-checkboxgroup">
+                                        {% for c in categorie2 %}
+											<span class="tg-checkbox">
+												<input type="checkbox" id="tg-cabservice" name="subcategories" value="Any" >
+												<label for="tg-cabservice">{{ c.nom}}</label>
+											</span>
+                                        {% endfor %}
+
+                                        <a href="javascript:void(0);" data-toggle="modal" data-target=".tg-categoryModal">Voir tous</a>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <h4>Filtrer par disponibilité</h4>
+                                    <div class="tg-checkboxgroup">
+                                        <span class="tg-checkbox">
+												<input type="checkbox" id="tg-abbeywood" name="filterbylocation" value="Disponible">
+												<label for="tg-abbeywood">Disponible</label>
+											</span>
+                                        <span class="tg-checkbox">
+												<input type="checkbox" id="tg-addington" name="filterbylocation" value="Indisponible">
+												<label for="tg-addington">Indisponible</label>
+											</span>
+                                        <span class="tg-checkbox">
+												<input type="checkbox" id="tg-addington" name="filterbylocation" value="Tous">
+												<label for="tg-addington">Tous les outils</label>
+											</span>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <button class="tg-btn" type="submit">apply</button>
+                                    <button class="tg-btn" type="reset">reset</button>
+                                </fieldset>
+                            </form>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!--************************************
+            Main End
+    *************************************-->
+    <!--************************************
+			Theme Modal Box Start
+	*************************************-->
+    <div class="modal fade tg-categoryModal" tabindex="-1">
+        <div class="modal-dialog tg-modaldialog" role="document">
+            <div class="modal-content tg-modalcontent">
+                <div class="tg-modalhead">
+                    <h2>Toute les catégories</h2>
+                    <span class="tg-selecteditems">05 Items Selected</span>
+                </div>
+                <div class="tg-modalbody">
+                    <form class="tg-themeform tg-formrefinesearch">
+                        <div class="tg-column">
+                            <div class="tg-checkboxgroup">
+                                {% set nbr=0 %}
+                                {% for cc in categorie %}
+                                    {% set nbr=(nbr+1) %}
+                                {% endfor %}
+                                {% set i=0 %}
+                                {% for cc in categorie %}
+                                    {% if i<=(nbr-(3*(nbr/4))) %}
+								<span class="tg-checkbox">
+									<input type="checkbox" id="tg-cabserviceone" name="automotive" value="Cab Service">
+									<label for="tg-cabserviceone">{{ cc.nom }}</label>
+								</span>
+                                    {% endif %}
+                                    {% set i=(i+1) %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="tg-column">
+                            <div class="tg-checkboxgroup">
+                                {% set i=0 %}
+                                {% for cc in categorie %}
+                                    {% if (nbr-(3*(nbr/4)))<i and i<=(nbr-(2*(nbr/4))) %}
+                                        <span class="tg-checkbox">
+									<input type="checkbox" id="tg-cabserviceone" name="automotive" value="Cab Service">
+									<label for="tg-cabserviceone">{{ cc.nom }}</label>
+								</span>
+                                    {% endif %}
+                                    {% set i=(i+1) %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="tg-column">
+                            <div class="tg-checkboxgroup">
+                                {% set i=0 %}
+                                {% for cc in categorie %}
+                                    {% if (nbr-(2*(nbr/4)))<i and i<=(nbr-(nbr/4)) %}
+                                        <span class="tg-checkbox">
+									<input type="checkbox" id="tg-cabserviceone" name="automotive" value="Cab Service">
+									<label for="tg-cabserviceone">{{ cc.nom }}</label>
+								</span>
+                                    {% endif %}
+                                    {% set i=(i+1) %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="tg-column">
+                            <div class="tg-checkboxgroup">
+                                {% set i=0 %}
+                                {% for cc in categorie %}
+                                    {% if (nbr-(nbr/4))<i and i<=nbr %}
+                                        <span class="tg-checkbox">
+									<input type="checkbox" id="tg-cabserviceone" name="automotive" value="Cab Service">
+									<label for="tg-cabserviceone">{{ cc.nom }}</label>
+								</span>
+                                    {% endif %}
+                                    {% set i=(i+1) %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tg-modalfoot">
+                    <button class="tg-btn" type="submit">apply</button>
+                    <button class="tg-btn" type="submit">Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--************************************
+            Theme Modal Box End
+    *************************************-->
+
+    {% block js %}
+        {{ parent() }}
+    {% endblock %}
+<script>
+    $(document).ready(function () {
+        $("#tri").on('change',function(){
+            var value = $('#tri').val();
+            var value2 = $('#triDSC').val();
+            window.location= "{{ path('front_afficherTriFrontOutil') }}"+"?tri="+value+"?triDSC="+value2;
+        });
+    })
+    $(document).ready(function () {
+        $("#triDSC").on('change',function(){
+            var value = $('#tri').val();
+            var value2 = $('#triDSC').val();
+            window.location= "{{ path('front_afficherTriFrontOutil') }}"+"?tri="+value+"?triDSC="+value2;
+        });
+    })
+</script>
+{% endblock %}

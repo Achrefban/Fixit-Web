@@ -1,0 +1,100 @@
+{% extends "front.html.twig" %}
+{% block content %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+
+            $("#recherche").keyup(function () {
+
+                var recherche=$(this).val();
+                console.log(recherche);
+                if(recherche == ''){
+                }
+                else
+                {
+                    console.log(recherche);
+                    $('.col-xs-6 col-sm-12 col-md-6 col-lg-4').html('');
+                    $.ajax({
+                        url: "{{ path('front_search') }}",
+                        method: "GET",
+                        dataType:"JSON",
+                        data :{
+                            search: recherche
+                        },
+                        success:function (chercher) {
+                            console.log(chercher.id);
+                            $('.tg-serviceprovider tg-automotive').html('hello world');
+
+                        }
+
+                    });
+                }
+            });
+        });
+    </script>
+
+    <main id="tg-main" class="tg-main tg-haslayout">
+    <div class="container">
+        <div class="row">
+            <div id="tg-twocolumns" class="tg-twocolumns">
+                <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9 pull-right">
+                    <div class="row">
+                        <div id="tg-content" class="tg-content">
+                            <div class="tg-listing">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="tg-sortfilters">
+                                        <span style="padding-left: 10px;">{{ pagination.getTotalItemCount }} élements trouvés</span>
+                                    </div>
+                                </div>
+
+
+                                <div class="tg-serviceproviders" id="resultat">
+                                    {% for s in pagination %}
+                                    <div class="col-xs-6 col-sm-12 col-md-6 col-lg-4">
+                                        <div class="tg-serviceprovider tg-automotive">
+                                            <figure class="tg-featuredimg">
+                                                <img src="{{ asset('uploads/images/categorieService/' ~ s.imageCategorie ) }}" alt="image description">
+                                            </figure>
+                                            <div class="tg-companycontent">
+                                                <div class="tg-title">
+                                                    <h3><a href="{{ path('front_listerServiceUser',{'id':s.id}) }}">{{ s.nom }}</a></h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="navigation">
+
+                                </div>
+
+
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <nav class="tg-pagination">
+                                        {#<ul>
+                                            <li class="tg-prevpage"><a href="#"><i class="fa fa-angle-left"></i></a></li>
+                                            <li><a href="#">1</a></li>
+                                            <li><a href="#">2</a></li>
+                                            <li><a href="#">3</a></li>
+                                            <li><a href="#">4</a></li>
+                                            <li class="tg-active"><a href="#">5</a></li>
+                                            <li>...</li>
+                                            <li><a href="#">10</a></li>
+                                            <li class="tg-nextpage"><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                                        </ul>#}
+                                        {{ knp_pagination_render(pagination) }}
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}

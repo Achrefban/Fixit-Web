@@ -1,0 +1,439 @@
+{% extends "front.html.twig" %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block title %}Profil de {{ user.firstname }}{% endblock %}
+{% block sidebar %}{% endblock %}
+{% block content %}
+<script>
+    $(document).ready(function () {
+        getData();
+        $("#like").click(
+            function () {
+                //console.log(msg);
+                verifyData(); //verifyData
+            }
+        )
+        function addData(){ //addData
+            $.ajax({
+                url: "{{ path('main_ajouter_like') }}",
+                method: "post",
+                data: {idUser: "{{ app.user.id }}",idUserl:"{{ user.id}}",like:1}
+            }).success(function(msg) {
+
+                getData(); //getData
+            });
+        }
+        function verifyData(){ //verifyData
+            $.ajax({
+                url: "{{ path('main_verify') }}",
+                method: "post",
+                data: {idUser: "{{ app.user.id }}",idUserl:"{{ user.id}}"}
+            }).success(function(msg) {
+                console.log(msg);
+                if(msg.like[0]==null)
+                {
+                    addData(); //addData
+
+                }
+                else
+                {
+                    removeData(); //removeData
+                }
+            });
+        }
+        function removeData(){ //removeData
+            $.ajax({
+                url: "{{ path('main_remove_likes') }}",
+                method: "post",
+                data: {idUser: "{{ app.user.id }}",idUserl:"{{ user.id}}"}
+            }).success(function(msg) {
+                getData(); //getData
+            });
+        }
+        function getData(){ //getData
+            $.ajax({
+                url: "{{ path('main_count_likes') }}",
+                method: "post",
+                data: {id: "{{ user.id }}"}
+            }).success(function(msg) {
+                $('#nbrl').html(" "+msg.nbr[0][1]+" ");
+            });
+
+        }
+        setInterval(function(){
+            getData(); //getData
+        }, 5000);
+        /*function refreshList(msg) {
+            $('#nbrl').html(" "+msg.nbr[0][1]+" ");
+
+
+        }*/
+    });
+
+    $(document).ready(function () {
+        getData(); //getData
+        $("#dislike").click(
+            function () {
+
+                verifyData(); //verifyData
+            }
+        )
+        function verifyData(){ //verifyData
+            $.ajax({
+                url: "{{ path('main_verify') }}",
+                method: "post",
+                data: {idUser: "{{ app.user.id }}",idUserl:"{{ user.id}}"}
+            }).success(function(msg) {
+                if(msg.like[0]==null)
+                {
+                    addData(); //addData
+                }
+                else
+                {
+                    removeData(); //removeData
+                }
+            });
+        }
+        function addData(){ //addData
+            $.ajax({
+                url: "{{ path('main_ajouter_like') }}",
+                method: "post",
+                data: {idUser: "{{ app.user.id }}",idUserl:"{{ user.id}}",like:0}
+            }).success(function(msg) {
+                console.log(msg);
+                getData(); //getData
+            });
+        }
+        function getData(){ //getData
+            $.ajax({
+                url: "{{ path('main_count_dislikes') }}",
+                method: "post",
+                data: {id: "{{ user.id }}"}
+            }).success(function(msg) {
+                $('#nbrd').html(" "+msg.nbrd[0][1]+" ");
+            });
+
+        }
+        /*function refreshList(msg) {
+            $('#nbrd').html(" "+msg.nbrd[0][1]+" ");
+
+
+        }*/
+        function removeData(){ //removeData
+            $.ajax({
+                url: "{{ path('main_remove_dislikes') }}",
+                method: "post",
+                data: {idUser: "{{ app.user.id }}",idUserl:"{{ user.id}}"}
+            }).success(function(msg) {
+                getData(); //getData
+            });
+        }
+        setInterval(function(){
+            getData(); //getData
+        }, 5000);
+    });
+</script>
+    <!--************************************
+				Inner Page Banner Start
+		*************************************-->
+    <div class="tg-innerpagebanner">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="tg-pagetitle">
+                        <h1>Profil</h1>
+                    </div>
+                    <ol class="tg-breadcrumb">
+                        <li><a href="{{ path('rechercherUser') }}">Recherche</a></li>
+                        <li class="tg-active">Profil</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--************************************
+            Inner Page Banner End
+    *************************************-->
+    <!--************************************
+            Main Start
+    *************************************-->
+    <main id="tg-main" class="tg-main tg-haslayout tg-paddingzero">
+        <div class="tg-serviceprovider tg-detailpage tg-serviceproviderdetail">
+            <div class="tg-detailpagehead">
+                <figure>
+                    <div style="width: 1680px;height: 250px;background-color: #5dc560"></div>
+                    <figcaption>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="tg-detailpageheadcontent">
+                                        <div class="tg-companylogo"><img src="{{ asset('uploads/images/user/' ~ user.image ) }}" alt="image description" style="max-height: 100px;max-width: 100px"></div>
+                                        <div class="tg-companycontent">
+                                            <ul class="tg-tags">
+                                                {% if user.enabled==1 %}
+                                                    <li><a class="tg-tag tg-verifiedtag" href="#">Vérifié</a></li>
+                                                {% else %}
+                                                    <li><a class="tg-tag tg-verifiedtag" href="#">Non vérifié</a></li>
+                                                {% endif %}
+                                            </ul>
+                                            <div class="tg-title">
+                                                <h1>{{ user.firstname }} {{ user.lastname }}</h1>
+                                            </div>
+                                            <br>
+                                            <br>
+                                            <ul class="tg-matadata" style="height: 50px; margin-top: 30px;">
+                                                {% if app.user.id != user.id %}
+                                                <li>
+                                                <a id="like" >
+                                                    <i class="fa fa-thumbs-o-up"  style="font-size: 30px; color: whitesmoke;"></i>
+
+                                                </a>
+                                                </li>
+
+                                                <li id="nbrl">0</li>
+                                                    <li style="margin-left: 20px;">
+                                                        <a id="dislike" >
+                                                            <i class="fa fa-thumbs-o-down"  style="font-size: 30px; color: white;"></i>
+                                                        </a>
+
+                                                    </li>
+                                                    <li id="nbrd">0</li>
+
+                                                {% else %}
+                                                <li>
+                                                    <i class="fa fa-thumbs-o-up"  style="font-size: 30px; color: whitesmoke;"></i>
+                                                </li>
+                                                    <li id="nbrl">0</li>
+                                                    <li style="margin-left: 20px;">
+                                                            <i class="fa fa-thumbs-o-down"  style="font-size: 30px; color: white;"></i>
+                                                    </li>
+                                                    <li id="nbrd">0</li>
+                                                {% endif %}
+
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </figcaption>
+                </figure>
+            </div>
+            <div id="tg-twocolumns" class="tg-twocolumns">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-7 col-md-8 col-lg-8 pull-left">
+                            <div id="tg-content" class="tg-content">
+                                <div class="tg-advertisement">
+                                    <a href="javascript:void(0);"><img src="{{ asset('service/images/advertisement/img-01.png') }}" alt="image description"></a>
+                                </div>
+                                <div class="tg-companyfeatures tg-listfeatures">
+                                    <div class="tg-companyfeaturebox tg-languages">
+                                        <div class="tg-companyfeaturetitle">
+                                            <h3>Langues parlées</h3>
+                                        </div>
+                                        <ul class="tg-themeliststyle tg-themeliststyledisc">
+                                            {% for langue in langues %}
+                                                <li>{{ langue.libelle }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="tg-companyfeaturebox tg-services">
+                                        <div class="tg-companyfeaturetitle">
+                                            <h3>Services</h3>
+                                        </div>
+                                        <div id="tg-accordion" class="tg-accordion">
+                                            {% for service in services %}
+                                                <div class="tg-service tg-panel">
+                                                <div class="tg-accordionheading"><h4><span>{{ service.idService.nom }} ({{ service.idService.CategorieService.nom }})</span><span>{{ service.prix }} SCoins</span></h4></div>
+                                                <div class="tg-panelcontent">
+                                                    <div class="tg-description">
+                                                        <p>{{ service.Description }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 pull-right">
+                            <div id="tg-content" class="tg-content">
+                                <div class="tg-widget tg-widgetlocationandcontactinfo">
+                                    <div class="tg-widgettitle">
+                                        <h3>Contact</h3>
+                                    </div>
+                                    <div class="tg-contactinfobox">
+                                        <ul class="tg-contactinfo">
+                                            <li>
+                                                <i class="lnr lnr-location"></i>
+                                                <address>{{ user.address }}, {{ user.city }}</address>
+                                            </li>
+                                            <li>
+                                                <i class="lnr lnr-phone-handset"></i>
+                                                <span>{{ user.phone }}</span>
+                                            </li>
+                                            <li>
+                                                <i class="lnr lnr-envelope"></i>
+                                                <span><a href="mailto:{{ user.email }}">{{ user.email }}</a></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="tg-widget tg-widgetbusinesshours">
+                                    <div class="tg-widgettitle">
+                                        <h3>Horraires De Travail</h3>
+                                    </div>
+                                    <div class="tg-widgetcontent">
+                                        <ul>
+                                            <li id="sh-SUN">
+                                                <span class="tg-dayname">Dimanche</span>
+                                                    {% for r in repos %}
+                                                        {% if r.id==0 %}
+                                                <div class="tg-timebox">
+                                                            <i class="lnr lnr-lock" style="background: #ededed;color: #919191"></i>
+                                                            <time datetime="2016-10-10">Repos</time>
+                                                </div>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    {% for h in horraires %}
+                                                        {% if h.jour==0 %}
+                                                        <div class="tg-timebox">
+                                                            <i class="lnr lnr-clock"></i>
+                                                            <time datetime="2016-10-10">{{ h.heureDebut|date('H:i') }} - {{ h.heureFin|date('H:i') }}</time>
+                                                        </div>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                            </li>
+                                            <li id="sh-MON">
+                                                <span class="tg-dayname">Lundi</span>
+                                                    {% for r in repos %}
+                                                        {% if r.id==1 %}
+                                                            <div class="tg-timebox">
+                                                                <i class="lnr lnr-lock" style="background: #ededed;color: #919191"></i>
+                                                                <time datetime="2016-10-10">Repos</time>
+                                                            </div>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% for h in horraires %}
+                                                    {% if h.jour==1 %}
+                                                        <div class="tg-timebox">
+                                                            <i class="lnr lnr-clock"></i>
+                                                            <time datetime="2016-10-10">{{ h.heureDebut|date('H:i') }} - {{ h.heureFin|date('H:i') }}</time>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </li>
+                                            <li id="sh-TUE">
+                                                <span class="tg-dayname">Mardi</span>
+                                                    {% for r in repos %}
+                                                        {% if r.id==2 %}
+                                                            <div class="tg-timebox">
+                                                                <i class="lnr lnr-lock" style="background: #ededed;color: #919191"></i>
+                                                                <time datetime="2016-10-10">Repos</time>
+                                                            </div>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% for h in horraires %}
+                                                    {% if h.jour==2 %}
+                                                        <div class="tg-timebox">
+                                                            <i class="lnr lnr-clock"></i>
+                                                            <time datetime="2016-10-10">{{ h.heureDebut|date('H:i') }} - {{ h.heureFin|date('H:i') }}</time>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </li>
+                                            <li id="sh-WED">
+                                                <span class="tg-dayname">Mercredi</span>
+                                                    {% for r in repos %}
+                                                        {% if r.id==3 %}
+                                                <div class="tg-timebox">
+                                                            <i class="lnr lnr-lock" style="background: #ededed;color: #919191"></i>
+                                                            <time datetime="2016-10-10">Repos</time>
+                                                </div>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% for h in horraires %}
+                                                    {% if h.jour==3 %}
+                                                        <div class="tg-timebox">
+                                                            <i class="lnr lnr-clock"></i>
+                                                            <time datetime="2016-10-10">{{ h.heureDebut|date('H:i') }} - {{ h.heureFin|date('H:i') }}</time>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </li>
+                                            <li id="sh-THU">
+                                                <span class="tg-dayname">Jeudi</span>
+                                                    {% for r in repos %}
+                                                        {% if r.id==4 %}
+                                                            <div class="tg-timebox">
+                                                                <i class="lnr lnr-lock" style="background: #ededed;color: #919191"></i>
+                                                                <time datetime="2016-10-10">Repos</time>
+                                                            </div>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% for h in horraires %}
+                                                    {% if h.jour==4 %}
+                                                        <div class="tg-timebox">
+                                                            <i class="lnr lnr-clock"></i>
+                                                            <time datetime="2016-10-10">{{ h.heureDebut|date('H:i') }} - {{ h.heureFin|date('H:i') }}</time>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </li>
+                                            <li id="sh-FRI">
+                                                <span class="tg-dayname">Vendredi</span>
+                                                    {% for r in repos %}
+                                                        {% if r.id==5 %}
+                                                            <div class="tg-timebox">
+                                                                <i class="lnr lnr-lock" style="background: #ededed;color: #919191"></i>
+                                                                <time datetime="2016-10-10">Repos</time>
+                                                            </div>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% for h in horraires %}
+                                                    {% if h.jour==5 %}
+                                                        <div class="tg-timebox">
+                                                            <i class="lnr lnr-clock"></i>
+                                                            <time datetime="2016-10-10">{{ h.heureDebut|date('H:i') }} - {{ h.heureFin|date('H:i') }}</time>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </li>
+                                            <li id="sh-SAT">
+                                                <span class="tg-dayname">Samedi</span>
+                                                    {% for r in repos %}
+                                                        {% if r.id==6 %}
+                                                            <div class="tg-timebox">
+                                                                <i class="lnr lnr-lock" style="background: #ededed;color: #919191"></i>
+                                                                <time datetime="2016-10-10">Repos</time>
+                                                            </div>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% for h in horraires %}
+                                                    {% if h.jour==6 %}
+                                                        <div class="tg-timebox">
+                                                            <i class="lnr lnr-clock"></i>
+                                                            <time datetime="2016-10-10">{{ h.heureDebut|date('H:i') }} - {{ h.heureFin|date('H:i') }}</time>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </li>
+                                          <li id="sh-SAT">
+
+                                          </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!--************************************
+            Main End
+    *************************************-->
+{% endblock %}

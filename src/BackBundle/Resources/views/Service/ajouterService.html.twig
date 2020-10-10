@@ -1,0 +1,220 @@
+{% extends "back.html.twig" %}
+    {% block js %}
+        {{ parent() }}
+        <script>$(document).ready(function(){
+
+                var $nom = $('#Nom'),
+                    $IdCat = $('#IdCat'),
+                    $prixMin = $('#prixMin'),
+                    $prixMax = $('#prixMax'),
+                    $image = $('#image'),
+                    $confirmer = $('#confirmer'),
+                    $reset = $('#reset'),
+                    $erreur = $('#erreur'),
+                    $category = $('#category'),
+                    $champ= $('.form-control');
+
+                $IdCat.change(function () {
+
+
+
+                })
+
+
+
+
+                $champ.keyup(function(){
+                    if($(this).val().length ==0){ // si la chaîne de caractères est inférieure à 5
+                        $(this).css({ // on rend le champ rouge
+                            borderColor : 'red',
+                            color : 'red'
+                        });
+                    }
+                    else{
+                        $(this).css({ // si tout est bon, on le rend vert
+                            borderColor : 'green',
+                            color : 'green'
+                        });
+                    }
+                });
+                $image.change(function(){
+                    console.log($(this).val());
+                    if($(this).val() ==""){ // si la chaîne de caractères est inférieure à 5
+                        $(this).css({ // on rend le champ rouge
+                            borderColor : 'red',
+                            color : 'red'
+                        });
+                    }
+                    else{
+                        $(this).css({ // si tout est bon, on le rend vert
+                            borderColor : 'green',
+                            color : 'green'
+                        });
+                    }
+                });
+                $prixMin.change(function(){
+                    console.log($(this).val());
+                    if($(this).value < 0){ // si la chaîne de caractères est inférieure à 5
+                        $(this).css({ // on rend le champ rouge
+                            borderColor : 'red',
+                            color : 'red'
+                        });
+                    }
+                    else{
+                        $(this).css({ // si tout est bon, on le rend vert
+                            borderColor : 'green',
+                            color : 'green'
+                        });
+                    }
+                });
+
+                $reset.click(function(){
+                    $image.css({ // on remet le style des champs comme on l'avait défini dans le style CSS
+                        borderColor : '#ccc',
+                        color : '#555'
+                    });
+                    $champ.css({ // on remet le style des champs comme on l'avait défini dans le style CSS
+                        borderColor : '#ccc',
+                        color : '#555'
+                    });
+                    $erreur.css('display', 'none'); // on prend soin de cacher le message d'erreur
+                });
+
+                $confirmer.click(function(e){
+                    if(!verifier($nom)||!verifier($IdCat)||!verifier($prixMin)||!verifier($prixMax)||!verifier($image))
+                    {
+                        e.preventDefault();
+                        verifier($nom);
+                        verifier($IdCat);
+                        verifier($prixMin);
+                        verifier($prixMax);
+                        verifier($image);
+                        //comparer($prixMin,$prixMax);
+                    }
+                    else if($prixMin.value > $prixMax.value)
+                    {
+                        console.log("rrr");
+                        e.preventDefault();
+                        $erreur.html("Le prix minimal doit être inférieure au prix maximal");
+                        $erreur.css({borderColor : 'red',
+                            color : 'red'});
+                        $prixMin.css({ // on rend le champ rouge
+                            borderColor : 'red',
+                            color : 'red'
+                        });
+                        $prixMax.css({ // on rend le champ rouge
+                            borderColor : 'red',
+                            color : 'red'
+                        });
+                        $erreur.css('display', 'block'); // on affiche le message d'erreur
+
+                    }
+
+                });
+
+
+                function comparer(min,max) {
+                    if((min.val()) - (max.val()) >0)
+                    {
+                        $erreur.css('display', 'block'); // on affiche le message d'erreur
+                        champ.css({ // on rend le champ rouge
+                            borderColor : 'red',
+                            color : 'red'
+                        });
+                        return false;
+                    }
+
+                }
+                function verifier(champ){
+                    if(champ.val() == "")
+                    { // si le champ est vide
+                        $erreur.css('display', 'block'); // on affiche le message d'erreur
+                        champ.css({ // on rend le champ rouge
+                            borderColor : 'red',
+                            color : 'red'
+                        });
+                        return false;
+                    }
+                    else if(champ.val()<0)
+                    {
+                        $erreur.css('display', 'block'); // on affiche le message d'erreur
+                        champ.css({ // on rend le champ rouge
+                            borderColor : 'red',
+                            color : 'red'
+                        });
+                        return false;
+                    }
+
+                    else
+                    {
+                        champ.css({ // on remet le style des champs comme on l'avait défini dans le style CSS
+                            borderColor : 'green',
+                            color : 'green'
+                        });
+                        return true;
+                    }
+                }
+
+            });
+
+        </script>
+    {% endblock %}
+{% block content %}
+    {% set nbr=0 %}
+    {% set val=0 %}
+    {% for cc in categorie %}
+        {% set nbr=(nbr+1) %}
+    {% endfor %}
+    <main class="content">
+        <div class="col-md-12" >
+
+            <h1 class="h3 mb-3" style="padding-left: 200px;">Ajouter un service</h1>
+
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div id="erreur" style="display: none" >
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <div class="alert-message" id="erreur">
+                                       <p> <strong> Vous n'avez pas rempli correctement les champs du formulaire ! </strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <form method="POST" enctype="multipart/form-data">
+
+                                <div class="form-group">
+                                    <label class="form-label">Nom</label>
+                                    <input type="text" class="form-control" placeholder="Nom" name="Nom" id="Nom">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Categorie de Service</label>
+                                    <select class="form-control" name="IdCat" id="IdCat">
+                                        {% for c in categorie %}
+                                            <option value="{{ c.id }}">{{ c.Nom }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                {% for c in categorie %}
+                                    <input type="hidden" value="{{ c.id }}" id="category">
+                                {% endfor %}
+                                <div class="form-group">
+                                    <label class="form-label">Description du Service</label>
+                                    <input type="text" class="form-control" name="description" id="description">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Image Service</label>
+                                    <input type="file" class="form-control" name="image" id="image">
+                                </div>
+
+                                <button type="submit" class="btn btn-primary" id="confirmer">Ajouter</button>
+                                <button type="reset" class="btn btn-primary" id="reset">Reset</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+    </main>
+
+
+
+{% endblock %}

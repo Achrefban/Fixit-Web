@@ -1,0 +1,711 @@
+{% extends "front.html.twig" %}
+{% block content %}
+    <!--************************************
+				Home Slider Start
+		*************************************-->
+    <div class="tg-homebannerandslider">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <div class="row">
+                        <div class="tg-accordionandcategorysearch hidden-xs">
+                            <div class="tg-categoreyaccordion">
+
+                                <div class="tg-themescrollbar">
+                                    <div id="tg-accordion" class="tg-accordion" role="tablist" aria-multiselectable="true">
+                                    {% for c in categorie %}
+                                        <div class="tg-panel">
+                                            <div class="tg-accordionheading tg-automotive tg-radio">
+                                                <input type="radio" id="{{ c.id }}" name="tg-categories" value="automovice">
+                                                <label for="{{ c.id }}">
+                                                    <span class="lnr lnr-car tg-categoryicon"></span>
+                                                    <span class="tg-catenameandtypes">
+															<span class="tg-categoryname">{{ c.nom }}</span>
+															<span class="tg-typesandjobs">3215 Providers</span>
+														</span>
+                                                </label>
+                                            </div>
+                                            <div class="tg-panelcontent">
+                                                {% for s in service %}
+                                                    {% if (s.CategorieService.id==c.id) %}
+                                                <div class="tg-subcategoryradio tg-radio">
+                                                    <input type="radio" id="{{ s.id }}" name="tg-categories" value="Cab Service">
+                                                    <label for="{{ s.id }}">
+                                                        <span class="tg-categoryname">{{ s.nom }}</span>
+                                                        <span class="tg-typesandjobs">{{ s.NbrProviders }}</span>
+                                                    </label>
+                                                </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+
+                                    {% endfor%}
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="tg-categorysearch">
+                                <form class="tg-formtheme tg-formcategorysearch">
+                                    <fieldset>
+                                        <input type="search" name="search" class="form-control" placeholder="Search Category">
+                                        <button class="tg-btnsearch" type="submit"><i class="lnr lnr-magnifier"></i></button>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="tg-searchbox">
+                            <form class="tg-formtheme tg-formsearch">
+                                <fieldset>
+                                    <legend>Search Thousands of Qualified Professionals</legend>
+                                    <div class="form-group">
+                                        <input type="text" name="keyword" class="form-control" placeholder="Keyword">
+                                    </div>
+                                    <div class="form-group hidden-sm hidden-md hidden-lg">
+                                        <input type="text" name="category" class="form-control" placeholder="Select Category">
+                                    </div>
+                                    <div class="form-group tg-inputwithicon">
+                                        <div class="locate-me-wrap">
+                                            <div id="location-pickr-map" class="elm-display-none"></div>
+                                            <input type="text"  autocomplete="on" id="location-address" value="" name="geo_location" placeholder="Geo location" class="form-control">
+                                            <a href="javascript:;" class="geolocate"><i class="fa fa-crosshairs"></i></a>
+                                            <a href="javascript:;" class="geodistance"><i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                                            <div class="geodistance_range elm-display-none">
+                                                <div class="distance-ml">Distance in&nbsp;( Miles )<span> 50</span></div>
+                                                <input type="hidden" name="geo_distance" value="50" class="geo_distance" />
+                                                <div class="geo_distance" id="geo_distance"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group tg-select">
+                                        <select>
+                                            <option value="">Select Location</option>
+                                            <option value="aberdeen">Aberdeen</option>
+                                            <option value="aldershot">Aldershot</option>
+                                            <option value="altrincham">Altrincham</option>
+                                            <option value="aylesbury">Aylesbury</option>
+                                            <option value="bamber">Bamber</option>
+                                            <option value="bangor">Bangor</option>
+                                            <option value="batley">Batley</option>
+                                            <option value="bebingto">Bebingto</option>
+                                            <option value="bedford">Bedford</option>
+                                            <option value="birmingham">Birmingham</option>
+                                            <option value="blackpool">Blackpool</option>
+                                            <option value="brentwood">Brentwood</option>
+                                            <option value="bristol">Bristol</option>
+                                            <option value="cardiff">Cardiff</option>
+                                            <option value="carlisle">Carlisle</option>
+                                            <option value="crawley">Crawley</option>
+                                            <option value="darlington">Darlington</option>
+                                            <option value="eastleigh">Eastleigh</option>
+                                            <option value="edinburg">Edinburg</option>
+                                            <option value="esher">Esher</option>
+                                            <option value="glasgow-sco">Glasgow SCO</option>
+                                            <option value="guildford">Guildford</option>
+                                            <option value="halesowen">Halesowen</option>
+                                            <option value="halifax">Halifax</option>
+                                            <option value="hamilton">Hamilton</option>
+                                            <option value="leeds">Leeds</option>
+                                            <option value="leicester">Leicester</option>
+                                            <option value="liverpool">Liverpool</option>
+                                            <option value="london">London</option>
+                                            <option value="louisville">Louisville</option>
+                                            <option value="manchester">Manchester</option>
+                                            <option value="sheffield">Sheffield</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group tg-select">
+                                        <select>
+                                            <option>States</option>
+                                            <option>Manchester</option>
+                                            <option>Birmingham</option>
+                                            <option>Bradford</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group tg-select">
+                                        <select>
+                                            <option value="city">City</option>
+                                            <option>Manchester</option>
+                                            <option>Birmingham</option>
+                                            <option>Bradford</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" name="zipcode" class="form-control" placeholder="zip code">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="tg-checkbox">
+                                            <input type="checkbox" id="tg-onlywithphoto" name="findonlywithprofilephoto" value="Find Only With Profile Photo">
+                                            <label for="tg-onlywithphoto">Find Only With Profile Photo</label>
+                                        </div>
+                                    </div>
+                                    <div class="tg-btns">
+                                        <button class="tg-btn" type="submit">Search Now</button>
+                                        <button class="tg-btn" type="reset">Reset All</button>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <div class="row">
+                        <div class="tg-featuredprofiles">
+                            <div id="tg-featuredprofileslider" class="tg-featuredprofileslider owl-carousel">
+                                <div class="item tg-profile tg-featuredprofile">
+                                    <figure>
+                                        <img src="{{ asset("service/image.png") }}" alt="image description">
+
+                                    </figure>
+                                </div>
+                                <div class="item tg-profile tg-featuredprofile">
+                                    <figure>
+                                        <img src="{{ asset("service/images/slider/img-02.jpg") }}" alt="image description">
+                                        <figcaption>
+                                            <div class="tg-featuredprofilecontent">
+                                                <div class="tg-contentbox">
+                                                    <div class="tg-companylogo"><a href="#"><img src="{{ asset("service/images/logos/img-01.png") }}" alt="image description"></a></div>
+                                                    <div class="tg-companycontent">
+                                                        <ul class="tg-tags">
+                                                            <li><a class="tg-tag tg-featuredtag" href="#">featured</a></li>
+                                                            <li><a class="tg-tag tg-verifiedtag" href="#">verified</a></li>
+                                                        </ul>
+                                                        <div class="tg-title">
+                                                            <h3><a href="#">Bright Future Group &amp; Company</a></h3>
+                                                        </div>
+                                                        <ul class="tg-matadata">
+                                                            <li><span class="tg-stars"><span></span></span></li>
+                                                            <li>
+                                                                <i class="fa fa-thumbs-o-up"></i>
+                                                                <em>99% (1009 votes)</em>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <a class="tg-btn" href="listingdetail.html">View Profile</a>
+                                            </div>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                                <div class="item tg-profile tg-featuredprofile">
+                                    <figure>
+                                        <img src="{{ asset("service/images/slider/img-03.jpg") }}" alt="image description">
+                                        <figcaption>
+                                            <div class="tg-featuredprofilecontent">
+                                                <div class="tg-contentbox">
+                                                    <div class="tg-companylogo"><a href="#"><img src="{{ asset("service/images/logos/img-01.png") }}" alt="image description"></a></div>
+                                                    <div class="tg-companycontent">
+                                                        <ul class="tg-tags">
+                                                            <li><a class="tg-tag tg-featuredtag" href="#">featured</a></li>
+                                                            <li><a class="tg-tag tg-verifiedtag" href="#">verified</a></li>
+                                                        </ul>
+                                                        <div class="tg-title">
+                                                            <h3><a href="#">Bright Future Group &amp; Company</a></h3>
+                                                        </div>
+                                                        <ul class="tg-matadata">
+                                                            <li><span class="tg-stars"><span></span></span></li>
+                                                            <li>
+                                                                <i class="fa fa-thumbs-o-up"></i>
+                                                                <em>99% (1009 votes)</em>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <a class="tg-btn" href="listingdetail.html">View Profile</a>
+                                            </div>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                                <div class="item tg-profile tg-featuredprofile">
+                                    <figure>
+                                        <img src="{{ asset("service/images/slider/img-04.jpg") }}" alt="image description">
+                                        <figcaption>
+                                            <div class="tg-featuredprofilecontent">
+                                                <div class="tg-contentbox">
+                                                    <div class="tg-companylogo"><a href="#"><img src="{{ asset("service/images/logos/img-01.png") }}" alt="image description"></a></div>
+                                                    <div class="tg-companycontent">
+                                                        <ul class="tg-tags">
+                                                            <li><a class="tg-tag tg-featuredtag" href="#">featured</a></li>
+                                                            <li><a class="tg-tag tg-verifiedtag" href="#">verified</a></li>
+                                                        </ul>
+                                                        <div class="tg-title">
+                                                            <h3><a href="#">Bright Future Group &amp; Company</a></h3>
+                                                        </div>
+                                                        <ul class="tg-matadata">
+                                                            <li><span class="tg-stars"><span></span></span></li>
+                                                            <li>
+                                                                <i class="fa fa-thumbs-o-up"></i>
+                                                                <em>99% (1009 votes)</em>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <a class="tg-btn" href="listingdetail.html">View Profile</a>
+                                            </div>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--************************************
+            Home Slider End
+    *************************************-->
+    <!--************************************
+            Main Start
+    *************************************-->
+    <style type="text/css">
+        .rate-area {
+
+            float: left;
+
+            border-style: none;
+
+        }
+
+
+
+        .rate-area:not(:checked) > input {
+
+            position: absolute;
+
+
+
+            clip: rect(0,0,0,0);
+
+        }
+
+
+
+        .rate-area:not(:checked) > label {
+
+            float: right;
+
+            width: 1em;
+
+            padding: 0 .1em;
+
+            overflow: hidden;
+
+            white-space: nowrap;
+
+            cursor: pointer;
+
+            font-size: 400%;
+
+            line-height: 1.2;
+
+            color: lightgrey;
+
+            text-shadow: 1px 1px #bbb;
+
+        }
+
+
+
+        .rate-area:not(:checked) > label:before { content: '★ '; }
+
+
+
+        .rate-area > input:checked ~ label {
+
+            color: gold;
+
+            text-shadow: 1px 1px #c60;
+
+            font-size: 450% !important;
+
+        }
+
+
+
+        .rate-area:not(:checked) > label:hover, .rate-area:not(:checked) > label:hover ~ label { color: gold; }
+
+
+
+        .rate-area > input:checked + label:hover, .rate-area > input:checked + label:hover ~ label, .rate-area > input:checked ~ label:hover, .rate-area > input:checked ~ label:hover ~ label, .rate-area > label:hover ~ input:checked ~ label {
+
+            color: gold;
+
+            text-shadow: 1px 1px goldenrod;
+
+        }
+
+
+
+        .rate-area > label:active {
+
+            position: relative;
+
+            top: 2px;
+
+            left: 2px;
+
+        }
+
+    </style>
+    <main id="tg-main" class="tg-main tg-haslayout">
+        <!--************************************
+                Top Categories Start
+        *************************************-->
+
+        <section class="tg-main-section tg-haslayout">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-10 col-md-push-1 col-lg-8 col-lg-push-2">
+                        <div class="tg-sectionhead">
+                            <div class="tg-sectiontitle">
+                                <h2>Top Categories</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tg-topcategories">
+                        {% for c in categorie %}
+                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                            <div class="tg-category">
+                                <figure>
+                                    <img src="{{ asset('uploads/images/categorieService/' ~ c.imageCategorie ) }}" style="width: 500px" alt="image description">
+                                    <figcaption class="tg-automotive">
+                                        <span class="lnr lnr-car tg-categoryicon"></span>
+                                        <span class="tg-categoryname">{{ c.nom }}</span>
+                                        <a href="#" class="tg-themetag tg-tagjobcount">
+                                            <i class="fa fa-clone"></i>
+                                            <em>3215</em>
+                                        </a>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="tg-btnbox">
+                        <a class="tg-btn tg-btnviewall" href="#">voir tout</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="tg-main-section tg-haslayout">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-10 col-md-push-1 col-lg-8 col-lg-push-2">
+                        <div class="tg-sectionhead">
+                            <div class="tg-sectiontitle">
+                                <h2>Top 4 Produits</h2>
+                            </div>
+                            <div class="tg-description">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tg-newsandposts">
+                        {% for p in produits %}
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                                <article class="tg-post">
+                                    <figure class="tg-featuredimg">
+                                        <a href="javascript:void(0);">
+                                            <img src="{{ asset('uploads/images/produit/' ~ p.image ) }}"  style="width: 150px;height: 150px" alt="image description"   >
+                                        </a>
+                                    </figure>
+                                    <div class="tg-postcontent">
+                                        <div class="tg-title">
+                                            <h3><a href="#">{{ p.produit }}</a></h3>
+                                        </div>
+                                        <ul class="tg-postmatadata">
+                                            <li>
+                                                <a href="#">
+                                                    <span>quantite vendu :  {{ p.s }}</span>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+
+                                </article>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+            <div class="tg-btnbox">
+                <a class="tg-btn tg-btnviewall" href=" {{ path('main_mes_produit' )}}">Voir tout</a>
+            </div>
+        </section>
+
+        <!--************************************
+                Top Categories End
+        *************************************-->
+        <!--************************************
+                Advantagies Start
+        *************************************-->
+
+        <section class="tg-main-section tg-haslayout tg-bglight" style="align-items: center;">
+            <div class="container">
+                <div class="row">
+                    <div class="tg-contactusarea">
+                        <div class="col-xs-12 col-sm-12 col-md-10 col-md-push-1 col-lg-10 col-lg-push-1">
+                            <form class="tg-themeform" method="POST">
+                                <fieldset>
+                                    <div class="tg-sectiontitle">
+                                        <h2>Votre Note Est importante pour nous</h2>
+                                    </div>
+                                    <div class="row">
+                                        <br>
+
+                                            {% if note is not defined %}
+                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="width: 700px; padding-left: 340px" >
+                                                <div class="form-group">
+                                                    <ul class="rate-area" style="align-content: center">
+
+                                                        <input type="radio" id="5-star" name="rating" value="5" /><label for="5-star" title="Amazing">5 stars</label>
+
+                                                        <input type="radio" id="4-star" name="rating" value="4" /><label for="4-star" title="Good">4 stars</label>
+
+                                                        <input type="radio" id="3-star" name="rating" value="3" /><label for="3-star" title="Average">3 stars</label>
+
+                                                        <input type="radio" id="2-star" name="rating" value="2" /><label for="2-star" title="Not Good">2 stars</label>
+
+                                                        <input type="radio" id="1-star" name="rating" value="1" /><label for="1-star" title="Bad">1 star</label>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                                {% elseif note[0].note==1 %}
+                                                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="width: 700px; padding-left: 340px" >
+                                                        <div class="form-group">
+                                                            <ul class="rate-area" >
+
+                                                                <input type="radio" id="5-star" name="rating" value="5" /><label for="5-star" title="Amazing">5 stars</label>
+
+                                                                <input type="radio" id="4-star" name="rating" value="4" /><label for="4-star" title="Good">4 stars</label>
+
+                                                                <input type="radio" id="3-star" name="rating" value="3" /><label for="3-star" title="Average">3 stars</label>
+
+                                                                <input type="radio" id="2-star" name="rating" value="2" /><label for="2-star" title="Not Good">2 stars</label>
+
+                                                                <input type="radio" id="1-star" name="rating" value="1" checked/><label for="1-star" title="Bad">1 star</label>
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    {% elseif note[0].note==2 %}
+                                                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="width: 700px; padding-left: 340px" >
+                                                            <div class="form-group">
+                                                                <ul class="rate-area" style="align-content: center">
+
+                                                                    <input type="radio" id="5-star" name="rating" value="5" /><label for="5-star" title="Amazing">5 stars</label>
+
+                                                                    <input type="radio" id="4-star" name="rating" value="4" /><label for="4-star" title="Good">4 stars</label>
+
+                                                                    <input type="radio" id="3-star" name="rating" value="3" /><label for="3-star" title="Average">3 stars</label>
+
+                                                                    <input type="radio" id="2-star" name="rating" value="2" checked /><label for="2-star" title="Not Good">2 stars</label>
+
+                                                                    <input type="radio" id="1-star" name="rating" value="1" /><label for="1-star" title="Bad">1 star</label>
+
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        {% elseif note[0].note==3 %}
+                                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="width: 700px; padding-left: 340px" >
+                                                                <div class="form-group">
+                                                                    <ul class="rate-area" style="align-content: center">
+
+                                                                        <input type="radio" id="5-star" name="rating" value="5" /><label for="5-star" title="Amazing">5 stars</label>
+
+                                                                        <input type="radio" id="4-star" name="rating" value="4" /><label for="4-star" title="Good">4 stars</label>
+
+                                                                        <input type="radio" id="3-star" name="rating" value="3" checked/><label for="3-star" title="Average">3 stars</label>
+
+                                                                        <input type="radio" id="2-star" name="rating" value="2"  /><label for="2-star" title="Not Good">2 stars</label>
+
+                                                                        <input type="radio" id="1-star" name="rating" value="1" /><label for="1-star" title="Bad">1 star</label>
+
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            {% elseif note[0].note==4 %}
+                                                                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="width: 700px; padding-left: 340px" >
+                                                                    <div class="form-group">
+                                                                        <ul class="rate-area" style="align-content: center">
+
+                                                                            <input type="radio" id="5-star" name="rating" value="5" /><label for="5-star" title="Amazing">5 stars</label>
+
+                                                                            <input type="radio" id="4-star" name="rating" value="4" checked/><label for="4-star" title="Good">4 stars</label>
+
+                                                                            <input type="radio" id="3-star" name="rating" value="3" /><label for="3-star" title="Average">3 stars</label>
+
+                                                                            <input type="radio" id="2-star" name="rating" value="2"  /><label for="2-star" title="Not Good">2 stars</label>
+
+                                                                            <input type="radio" id="1-star" name="rating" value="1" /><label for="1-star" title="Bad">1 star</label>
+
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                {% elseif note[0].note==5 %}
+                                                                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="width: 700px; padding-left: 340px" >
+                                                                        <div class="form-group">
+                                                                            <ul class="rate-area" style="align-content: center">
+
+                                                                                <input type="radio" id="5-star" name="rating" value="5" checked /><label for="5-star" title="Amazing">5 stars</label>
+
+                                                                                <input type="radio" id="4-star" name="rating" value="4" /><label for="4-star" title="Good">4 stars</label>
+
+                                                                                <input type="radio" id="3-star" name="rating" value="3" /><label for="3-star" title="Average">3 stars</label>
+
+                                                                                <input type="radio" id="2-star" name="rating" value="2"  /><label for="2-star" title="Not Good">2 stars</label>
+
+                                                                                <input type="radio" id="1-star" name="rating" value="1" /><label for="1-star" title="Bad">1 star</label>
+
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                            {% endif %}
+
+
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <div class="form-group">
+                                                <textarea placeholder="Description" name="Description">{% if note is not defined %} {% else %} {{ note[0].Description }} {% endif %}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="width: 400px">
+                                            <div class="form-group">
+                                                <select class="form-control" name="satisfaction">
+
+                                                    <option value="Non satisfait" selected>Non satisfait</option>
+                                                    <option value="Moyennement Satisfait">Moyennement Satisfait</option>
+                                                    <option value="Totalement satisfait">Totalement satisfait</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <button type="submit" class="tg-btn">Submit</button>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--************************************
+                Advantagies End
+        *************************************-->
+        <!--************************************
+            Latest Services Provider Start
+        *************************************-->
+        <!--************************************
+            Latest Services Provider End
+        *************************************-->
+        <!--************************************
+                Testimonials Start
+        *************************************-->
+        <section class="tg-main-section tg-haslayout tg-bglight">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <figure class="tg-clientlargedp">
+                            <img src="{{ asset("service/images/testimonials/img-01.jpg") }}" alt="image description">
+                            <span class="tg-quotes"><i class="fa fa-quote-right"></i></span>
+                        </figure>
+                    </div>
+                    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+                        <div class="tg-testimonials">
+                            <div id="tg-testimonialcontentslider" class="owl-carousel tg-testimonialcontentslider">
+                                {% for a in lastavis  %}
+
+                                    <div class="item">
+                                        <div class="tg-testimonial">
+                                            <h2>{{ a.user.firstname }}</h2>
+                                            <h3>{{ a.satisfaction }}</h3>
+                                            <blockquote><q>{{ a.description }} </q></blockquote>
+                                            {% if a.note == 1 %}
+                                            <i class="fa fa-star" aria-hidden="true" style="color:gold;"></i>
+                                            <i class="fa fa-star-o" aria-hidden="true" style="color:gold;"></i>
+                                            <i class="fa fa-star-o" aria-hidden="true" style="color:gold;"></i>
+                                            <i class="fa fa-star-o" aria-hidden="true" style="color:gold;"></i>
+                                            <i class="fa fa-star-o" aria-hidden="true" style="color:gold;"></i>
+                                            {% elseif a.note == 2 %}
+                                                <i class="fa fa-star"  style="color:gold;"></i>
+                                                <i class="fa fa-star"  style="color:gold;"></i>
+                                                <i class="fa fa-star-o"  style="color:gold;"></i>
+                                                <i class="fa fa-star-o"  style="color:gold;"></i>
+                                                <i class="fa fa-star-o"  style="color:gold;"></i>
+                                            {% elseif a.note == 3 %}
+                                                <i class="fa fa-star" aria-hidden="true" style="color:gold;"></i>
+                                                <i class="fa fa-star" aria-hidden="true" style="color:gold;"></i>
+                                                <i class="fa fa-star" aria-hidden="true" style="color:gold;"></i>
+                                                <i class="fa fa-star-o" aria-hidden="true" style="color:gold;"></i>
+                                                <i class="fa fa-star-o" aria-hidden="true" style="color:gold;"></i>
+                                            {% elseif a.note == 4 %}
+                                                <i class="fa fa-star" aria-hidden="true" style="color:gold;"></i>
+                                                <i class="fa fa-star" aria-hidden="true" style="color:gold;"></i>
+                                                <i class="fa fa-star" aria-hidden="true" style="color:gold;"></i>
+                                                <i class="fa fa-star" aria-hidden="true" style="color:gold;"></i>
+                                                <i class="fa fa-star-o" aria-hidden="true" style="color:gold;"></i>
+                                            {% elseif a.note == 5 %}
+                                                <i class="fa fa-star" aria-hidden="true" style="color:gold;"></i>
+                                                <i class="fa fa-star" aria-hidden="true" style="color:gold;"></i>
+                                                <i class="fa fa-star" aria-hidden="true" style="color:gold;"></i>
+                                                <i class="fa fa-star" aria-hidden="true" style="color:gold;"></i>
+                                                <i class="fa fa-star" aria-hidden="true" style="color:gold;"></i>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+
+                                {% endfor %}
+
+                                </div>
+                            </div>
+                            <div id="tg-testimonialnavigationslider" class="owl-carousel tg-testimonialnavigationslider">
+                                <div class="item">
+                                    <figure><img src="{{ asset("service/images/testimonials/img-01.jpg") }}" alt="image description"></figure>
+                                </div>
+                                <div class="item">
+                                    <figure><img src="{{ asset("service/images/testimonials/img-02.jpg") }}" alt="image description"></figure>
+                                </div>
+                                <div class="item">
+                                    <figure><img src="{{ asset("service/images/testimonials/img-03.jpg") }}" alt="image description"></figure>
+                                </div>
+                                <div class="item">
+                                    <figure><img src="{{ asset("service/images/testimonials/img-04.jpg") }}" alt="image description"></figure>
+                                </div>
+                                <div class="item">
+                                    <figure><img src="{{ asset("service/images/testimonials/img-05.jpg") }}" alt="image description"></figure>
+                                </div>
+                                <div class="item">
+                                    <figure><img src="{{ asset("service/images/testimonials/img-06.jpg") }}" alt="image description"></figure>
+                                </div>
+                                <div class="item">
+                                    <figure><img src="{{ asset("service/images/testimonials/img-07.jpg") }}" alt="image description"></figure>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--************************************
+                Testimonials End
+        *************************************-->
+        <!--************************************
+                News & Posts Start
+        *************************************-->
+        <!--************************************
+                News & Posts End
+        *************************************-->
+    </main>
+    <!--************************************
+            Main End
+    *************************************-->
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends "front.html.twig" %}
+{% block sidebar %}
+<script>
+    $( document ).ready(function() {
+        getData();
+        function getData() {
+            $.ajax({
+                url: '{{ path('main_count_like_currentuser') }}',
+                method: 'post',
+                data: {id : "{{ app.user.id }}"},
+                success: function(msg) {
+                    console.log(msg.nbrl);
+                    $('#likes').html(" "+msg.nbrl[0][1]+" ");
+                    $('#dislikes').html(" "+msg.nbrd[0][1]+" ");
+                }
+            });
+        }
+       setInterval(function(){
+            getData();
+        }, 5000);
+
+    });
+</script>
+<main id="tg-main" class="tg-main tg-haslayout">
+    <div class="container">
+        <div class="row">
+            <div id="tg-twocolumns" class="tg-twocolumns">
+                <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
+                    <aside id="tg-sidebar" class="tg-sidebar">
+                        <div class="tg-widgetprofile">
+                            <figure class="tg-profilebannerimg">
+                                <img src="{{ asset("service/images/img-02.jpg") }}" alt="image description">
+                            </figure>
+                            <div class="tg-widgetcontent">
+                                <figure>
+                                    {% if app.user.image == null %}
+                                        <img src="{{ asset("service/images/thumbnails/img-07.jpg") }}" alt="image description">
+                                    {% else %}
+                                        <img
+                                                src="{{ asset('uploads/images/user/' ~ app.user.image ) }}"
+                                                alt="image description"
+                                                style="height: 100px; width: 100px;margin: auto"
+                                        >
+                                    {% endif %}
+                                    <a class="tg-btnedite" href="{{ path('profile_setting') }}"><i class="lnr lnr-pencil"></i></a>
+                                </figure>
+                                <div class="tg-admininfo">
+                                    <h3>{{  app.user.firstname }} {{  app.user.lastname }}</h3>
+                                    <ul class="tg-matadata">
+                                        <li>
+                                            <i class="fa fa-thumbs-o-up"></i>
+                                            <em id="likes"></em>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-thumbs-o-down"></i>
+                                            <em id="dislikes"></em>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tg-widgetdashboard">
+                            <nav id="tg-dashboardnav" class="tg-dashboardnav">
+                                <ul>
+                                    <li {% if menu_selected|default('profile_setting') == 'profile_setting' %} class="tg-active"{% endif %}>
+                                        <a href="{{ path('profile_setting') }}">
+                                            <i class="lnr lnr-user"></i>
+                                            <span>Mon profil</span>
+                                        </a>
+                                    </li>
+                                    <li {% if menu_selected == 'horraire_setting' %} class="tg-active"{% endif %}>
+                                        <a href="{{ path('horraire_setting') }}">
+                                            <i class="lnr lnr-clock"></i>
+                                            <span>Mes horraires de travail</span>
+                                        </a>
+                                    </li>
+                                    <li {% if menu_selected == 'main_reclamation_Ajout' %} class="tg-active"{% endif %}>
+                                        <a href="{{ path('main_reclamation_Ajout') }}">
+                                            <i class="lnr lnr-bullhorn"></i>
+                                            <span>Reclamations</span>
+                                        </a>
+                                    </li>
+                                    <li {% if menu_selected == 'main_ajout_note' %} class="tg-active"{% endif %}>
+                                        <a href="{{ path("main_ajout_note") }}">
+                                            <i class="lnr lnr-heart"></i>
+                                            <span>Avis</span>
+                                        </a>
+                                    </li>
+                                    <li{% if menu_selected == 'front_gererService' %} class="tg-active"{% endif %}>
+                                        <a href="{{ path('front_gererService') }}">
+                                            <i class="lnr lnr-briefcase"></i>
+                                            <span>Mes Services</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('front_mesOutils') }}">
+                                            <i class="lnr lnr-map"></i>
+                                            <span>Mes outils</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('mesAnnonces') }}">
+                                            <i class="lnr lnr-map"></i>
+                                            <span>Mes annonces</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('mesCandidatures') }}">
+                                            <i class="lnr lnr-map"></i>
+                                            <span>Mes candidatures</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('logout') }}">
+                                            <i class="lnr lnr-exit"></i>
+                                            <span>Se Déconnecter</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="tg-widgetdashboard hidden-xs">
+                            <div class="tg-banneradd">
+                                <figure>
+                                    <a href="#"></a>
+                                </figure>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+                {% endblock %}
+                {% block content_dashboard %}
+                {% endblock %}
+                {% block content_dashboard1 %}
+            </div>
+        </div>
+    </div>
+</main>
+    {% endblock %}

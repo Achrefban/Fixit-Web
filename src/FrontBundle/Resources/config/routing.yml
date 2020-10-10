@@ -1,0 +1,257 @@
+front_homepage:
+    path:     /index
+    defaults: { _controller: FrontBundle:Default:index }
+profile_setting:
+    path:     /compte/profil
+    defaults: { _controller: FrontBundle:User:profil }
+account_setting:
+    path:     /compte
+    defaults: { _controller: UserBundle:ChangePassword:changePassword }
+rechercherUser:
+  path:     /recherche
+  defaults: { _controller: FrontBundle:User:rechercher }
+afficherProfil:
+  path:     /profil/{id}
+  defaults: { _controller: FrontBundle:User:afficherUser }
+ajouterPhoto:
+  path:     /compte/ajouterPhoto
+  defaults: { _controller: FrontBundle:User:ajouterPhoto }
+  methods: [post]
+fos_user_profile_show:
+  path: /compte
+paiement:
+    path:     /compte/paiement
+    defaults: { _controller: FrontBundle:Paiement:paiement }
+liste_paiement:
+  path:     /compte/listePaiement
+  defaults: { _controller: FrontBundle:Paiement:liste }
+horraire_setting:
+  path:     /compte/horraire
+  defaults: { _controller: FrontBundle:Horraire:modifier }
+horrairesUser:
+  path:     /compte/listHorraires
+  defaults: { _controller: FrontBundle:Horraire:list }
+  methods: [post]
+supprimerHorraire:
+  path:     /compte/supprimerHorraire
+  defaults: { _controller: FrontBundle:Horraire:supprimer }
+  methods: [post]
+ajouterHorraire:
+  path:     /compte/ajouterHorraire
+  defaults: { _controller: FrontBundle:Horraire:ajouter }
+  methods: [post]
+supprimerJour:
+  path:     /compte/supprimerJour
+  defaults: { _controller: FrontBundle:Horraire:supprimerJour }
+  methods: [post]
+supprimerRepos:
+  path:     /compte/supprimerRepos
+  defaults: { _controller: FrontBundle:Horraire:supprimerRepos }
+  methods: [post]
+fos_user_registration_check_email:
+    path:     /register/check-email
+    defaults: { _controller: UserBundle:Registration:checkEmail }
+
+ ############################ ROUTING DE ACHREF #######################
+listeAnnonce:
+  path:     /annonce/offres
+  defaults: { _controller: FrontBundle:Annonce:listeOffre }
+modifierAnnonce:
+  path:     /annonce/modifier/{id}
+  defaults: { _controller: FrontBundle:Annonce:modifier }
+ajouterAnnonce:
+  path:     /annonce/ajouter
+  defaults: { _controller: FrontBundle:Annonce:ajouter }
+mesAnnonces:
+    path:     /compte/annonce
+    defaults: { _controller: FrontBundle:Annonce:mesAnnonces }
+listeDem:
+  path:     /annonce/demandes
+  defaults: { _controller: FrontBundle:Annonce:listeDem }
+detailAnnonce:
+  path:     /annonce/detail/{id}
+  defaults: { _controller: FrontBundle:Annonce:detail }
+supprimerAnnonce:
+  path:     /annonce/supprimer/{id}
+  defaults: { _controller: FrontBundle:Annonce:supprimer }
+recherche:
+  path:     /recherche
+  defaults: { _controller: FrontBundle:Service:recherche }
+  methods:  GET
+postuler:
+  path:     /postuler/{id}
+  defaults: { _controller: FrontBundle:Candidature:ajouter }
+mesCandidatures:
+      path:     /compte/candidatures
+      defaults: { _controller: FrontBundle:Candidature:mesCandidatures }
+supprimerCandidature:
+  path:     /candidature/supprimer/{id}
+  defaults: { _controller: FrontBundle:Candidature:supprimer }
+modifierCandidature:
+    path:     /candidature/modifier/{id}
+    defaults: { _controller: FrontBundle:Candidature:modifier }
+listeCandidats:
+  path:     /candidats/liste/{id}
+  defaults: { _controller: FrontBundle:Annonce:candidat }
+confirmerCandidat:
+      path:     /confirmer/{id}
+      defaults: { _controller: FrontBundle:Annonce:confirmer }
+ajouter_gestionService:
+    path:     /compte/gestionAnnonce
+    defaults: { _controller: FrontBundle:Annonce:gest }
+    ############################ FIN ROUTING DE ACHREF #######################
+
+############################ ROUTING DE MUSTAPHA PLEASE DON'T TOUCH #######################
+main_reclamation_Ajout:
+  path:     /compte/reclamer
+  defaults: { _controller: FrontBundle:ReclamationFront:AjouterReclamation }
+main_affiche_Detail_Reclamation:
+  path:     /compte/reclamer/detail/{reclamation}
+  defaults: { _controller: FrontBundle:ReclamationFront:AfficherDetail }
+main_modifier_reclamation:
+  path:     /compte/reclamer/modifier/{rec}
+  defaults: { _controller: FrontBundle:ReclamationFront:ModifierReclamation }
+main_mes_reclamation:
+  path:     /compte/listReclamations
+  defaults: { _controller: FrontBundle:ReclamationFront:MesReclamation }
+main_supprimer_reclamation:
+  path:     /compte/reclamer/supprimer/{rec}
+  defaults: { _controller: FrontBundle:ReclamationFront:SupprimerReclamation }
+main_affiche_Detail_Reclamationscript:
+    path:     /compte/reclamer/d/
+    defaults: { _controller: FrontBundle:ReclamationFront:ListRec }
+    #methods: [post]
+main_affiche_list_service_accompli:
+  path:     /compte/listserviceaccompli
+  defaults: { _controller: FrontBundle:ReclamationFront:ListSerAcc }
+main_ajout_note:
+  path:     /compte/Avis
+  defaults: { _controller: FrontBundle:AvisFront:NoterService }
+
+main_select_service_a_reclame:
+  path:     /compte/ssar
+  defaults: { _controller: FrontBundle:ReclamationFront:selectserviceareclamer }
+  methods: [get]
+main_ajouter_like:
+  path:     /compte/ajouterlike
+  defaults: { _controller: FrontBundle:LikeDislike:AjouterLike }
+main_count_likes:
+  path:     /compte/countlike
+  defaults: { _controller: FrontBundle:LikeDislike:NombreLike }
+  methods: [post]
+main_remove_likes:
+  path:     /compte/removelike
+  defaults: { _controller: FrontBundle:LikeDislike:removelike }
+  methods: [post]
+main_remove_dislikes:
+  path:     /compte/removedislike
+  defaults: { _controller: FrontBundle:LikeDislike:removedislike }
+  methods: [post]
+main_count_dislikes:
+  path:     /compte/countdislike
+  defaults: { _controller: FrontBundle:LikeDislike:NombreDislike }
+  methods: [post]
+main_verify:
+  path:     /compte/verify
+  defaults: { _controller: FrontBundle:LikeDislike:verify }
+  methods: [post]
+main_count_like_currentuser:
+  path:     /compte/countlikecurrent
+  defaults: { _controller: FrontBundle:LikeDislike:countcurrent }
+  methods: [post]
+############################        END ROUTING DE MUSTAPHA         #######################
+languesUser:
+  path:     /compte/langues
+  defaults: { _controller: FrontBundle:Langue:listLangues }
+  methods: [post]
+ajouterLangue:
+  path:     /compte/ajouterLangue
+  defaults: { _controller: FrontBundle:Langue:ajouter }
+  methods: [post]
+supprimerLangue:
+  path:     /compte/supprimerLangue
+  defaults: { _controller: FrontBundle:Langue:supprimer }
+  methods: [post]
+################# ROUTING DE Sl-Wassim PLEASE DON'T TOUCH #####################
+front_afficherFrontOutil:
+  path: /compte/afficherFrontOutil
+  defaults: { _controller: FrontBundle:Outil:afficherFront }
+front_afficherTriFrontOutil:
+  path: /compte/afficherTriFrontOutil
+  defaults: { _controller: FrontBundle:Outil:afficherTriFront }
+front_detailOutil:
+  path: /compte/detailOutil
+  defaults: { _controller: FrontBundle:Outil:detail }
+front_louerOutil:
+  path: /compte/louerOutil
+  defaults: { _controller: FrontBundle:Outil:louer }
+front_mesOutils:
+  path: /compte/mesOutils
+  defaults: { _controller: FrontBundle:Outil:mesOutils }
+############################ END ROUNTING DE Sl-Wassim ##########################
+front_listeService:
+  path:     /listeService
+  defaults: { _controller: FrontBundle:Service:afficher }
+front_detailsService:
+  path:     /detailsService/{id}
+  defaults: { _controller: FrontBundle:Service:details }
+front_gererService:
+  path:     /compte/gererService
+  defaults: { _controller: FrontBundle:Service:gerer }
+front_gestionService:
+  path:     /compte/gestionService
+  defaults: { _controller: FrontBundle:Service:listServiceCat }
+  methods:  GET
+front_ajouterServiceUser:
+  path:     /compte/ajouterServiceUser
+  defaults: { _controller: FrontBundle:Service:ajouter }
+front_afficherServiceUser:
+  path:     /compte/afficherServiceUser
+  defaults: { _controller: FrontBundle:Service:afficherService }
+front_supprimerServiceUser:
+  path:     /compte/supprimerServiceUser/{id}
+  defaults: { _controller: FrontBundle:Service:supprimer }
+front_proposerServiceUser:
+  path:     /compte/proposerServiceUser
+  defaults: { _controller: FrontBundle:Service:ajouterProposition }
+front_listerServiceUser:
+  path:     /compte/listeService
+  defaults: { _controller: FrontBundle:Service:lister }
+front_search:
+  path:     /compte/search
+  defaults: { _controller: FrontBundle:Service:search }
+  methods:  GET
+
+    ############routing ali##############
+main_ajouter_Produit:
+    path:     compte/ajoutProduit
+    defaults: { _controller: FrontBundle:Produit:ajouter }
+main_acheter_Produit:
+  path:     compte/acheterProduit/{prod}
+  defaults: { _controller: FrontBundle:Produit:acheter }
+main_modifier_Produit:
+    path:     compte/modifierProduits/{prod}
+    defaults: { _controller: FrontBundle:Produit:modifier }
+main_supprimer_Produit:
+    path:     compte/supprimerProduits/{prod}
+    defaults: { _controller: FrontBundle:Produit:Supprimer }
+main_mes_produit:
+    path:     /compte/listproduit
+    defaults: { _controller: FrontBundle:Produit:liste }
+main_Detaille_produit:
+  path:      compte/detailleProduit/{prod}
+  defaults: { _controller: FrontBundle:Produit:Detaill }
+main_user_produit:
+  path:     /compte/MesProduits
+  defaults: { _controller: FrontBundle:Produit:MesProduits }
+main_affichageTriee:
+  path: /compte/tri
+  defaults: { _controller: FrontBundle:Produit:afficherTriFront }
+like_produit:
+  path:  compte/likeProduit/{id}
+  defaults: { _controller: FrontBundle:Produit:like}
+Top_produit:
+  path: /compte/meilleurProduit
+  defaults: { _controller: FrontBundle:Produit:meilleurProduit}
+
+      ###############end routing of ali############
